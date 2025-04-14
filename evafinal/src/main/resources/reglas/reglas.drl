@@ -1,0 +1,29 @@
+package reglas
+import com.carbajal.evafinal.Compra;
+
+rule "Aplicar descuento a cliente VIP"
+    when
+        $compra: Compra(clienteTipo == "VIP", totalCompra > 500)
+    then 
+        $compra.setDescuento(0.15);
+        $compra.setTotalCompra($compra.getTotalCompra() - ($compra.getTotalCompra() * 0.15));
+        System.out.println("Se aplicó un descuento del 15% al cliente VIP.");
+end
+
+rule "Aplicar descuento a cliente NUEVO"
+    when
+        $compra: Compra(clienteTipo == "NUEVO", cantidadProductos > 3)
+    then 
+        $compra.setDescuento(0.10);
+        $compra.setTotalCompra($compra.getTotalCompra() - ($compra.getTotalCompra() * 0.10));
+        System.out.println("Se aplicó un descuento del 10% al cliente NUEVO.");
+end
+
+rule "Descuento por monto de 1000"
+    when
+        $compra: Compra(totalCompra > 1000)
+    then 
+        $compra.setDescuento(0.20);
+        $compra.setTotalCompra($compra.getTotalCompra() - ($compra.getTotalCompra() * 0.20));
+        System.out.println("Se aplicó un descuento del 20% por monto de compra superior a 1000.");
+end
